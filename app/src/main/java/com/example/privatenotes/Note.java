@@ -2,39 +2,39 @@ package com.example.privatenotes;
 
 public class Note {
     // note values
-    private long ID;
+    private int ID;
     private String title;
     private String content;
     private String date;
     private String time;
-    //private String category;
+    private String category;
 
     // note constructors
     Note(){}    // empty constructor
 
-    Note(String title, String content, String date, String time) {
+    Note(String title, String content, String date, String time, String category) {
         this.title = title;
         this.content = content;
         this.date = date;
         this.time = time;
-        // this.category = category
+        this.category = category;
     }
-    Note(long id, String title, String content, String date, String time) {
+    Note(int id, String title, String content, String date, String time, String category) {
         this.ID = id;
         this.title = title;
         this.content = content;
         this.date = date;
         this.time = time;
-        // this.category = category
+        this.category = category;
     }
 
     // getters and setters
 
-    public long getID() {
+    public int getID() {
         return ID;
     }
 
-    public void setID(long ID) {
+    public void setID(int ID) {
         this.ID = ID;
     }
 
@@ -70,4 +70,11 @@ public class Note {
         this.time = time;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String time) {
+        this.category = category;
+    }
 }

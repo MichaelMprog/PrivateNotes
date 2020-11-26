@@ -5,12 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:ignore="ExtraText">
     tools:context=".Details"
-    tools:showIn="@layout/activity_details"
+    tools:showIn="@layout/activity_details">
 
     <TextView
-        android:id="@+id/detailsOfNote"
+        android:id="@+id/noteDesc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -19,7 +18,7 @@
         android:fadeScrollbars="true"
         android:fontFamily="sans-serif"
         android:scrollbars="vertical"
-        android:text="TextView"
+        android:text="Sample Text Description"
         android:textAlignment="viewStart"
         android:textColor="@android:color/background_dark"
         android:textSize="18sp"

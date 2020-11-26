@@ -20,7 +20,7 @@ import java.util.Calendar;
 
 public class AddNote extends AppCompatActivity {
     Toolbar toolbar;
-    EditText noteTitle,noteDetails;
+    EditText noteTitle,noteDetails,noteCategory;
     Calendar c;
     String todaysDate;
     String currentTime;
@@ -30,14 +30,14 @@ public class AddNote extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
         toolbar = findViewById(R.id.toolbar);
-
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("New Note");
 
-        noteTitle = findViewById(R.id.noteTitle);
         noteDetails = findViewById(R.id.noteDetails);
+        noteTitle = findViewById(R.id.noteTitle);
+        noteCategory = findViewById(R.id.noteCategory);
 
         noteTitle.addTextChangedListener(new TextWatcher() {
             @Override
@@ -47,8 +47,7 @@ public class AddNote extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() != 0)
-                {
+                if (s.length() != 0) {
                     getSupportActionBar().setTitle(s);  // changes text in toolbar when note title is changed
                 }
             }
@@ -87,35 +86,24 @@ public class AddNote extends AppCompatActivity {
     // for saving and deleting notes (buttons in toolbar)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.save)
-        {
-            if (noteTitle.getText().length() != 0)
-            {
-                Note note = new Note(noteTitle.getText().toString(), noteDetails.getText().toString(),todaysDate,currentTime);  // constructs note
+        if(item.getItemId() == R.id.save) {
+            if (noteTitle.getText().length() != 0) {
+                Note note = new Note(noteTitle.getText().toString(), noteDetails.getText().toString(),todaysDate,currentTime, noteCategory.getText().toString());  // constructs note
                 NoteDatabase sDB = new NoteDatabase(this);
-                long id = sDB.addNote(note);     // adds note to database
-                Note check = sDB.getNote(id);
-                Log.d("inserted", "Note: " + id + " -> Title: " + check.getTitle() + " Date: " + check.getDate());
-                onBackPressed();         // goes back to main note menu
+                sDB.addNote(note);
+                onBackPressed();
 
                 Toast.makeText(this, "Note Saved", Toast.LENGTH_SHORT).show();  // tells user button was pressed
             }
-            else
-            {
+            else {
                 noteTitle.setError("Title can not be blank");
             }
         }
-        else if(item.getItemId() == R.id.delete)
-        {
+        else if(item.getItemId() == R.id.delete) {
             Toast.makeText(this, "Canceled", Toast.LENGTH_SHORT).show();     // tells user button was pressed
-            goToMain();
+            onBackPressed();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void goToMain() {
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
     }
 
     @Override

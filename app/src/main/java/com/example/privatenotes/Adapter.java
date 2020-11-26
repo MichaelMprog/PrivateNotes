@@ -35,13 +35,17 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>
         String title = notes.get(i).getTitle();
         String date = notes.get(i).getDate();
         String time = notes.get(i).getTime();
-        long id = notes.get(i).getID();
+        String category = notes.get(i).getCategory();
+        int id = notes.get(i).getID();
         Log.d("date on ", "Date on: "+date);
 
         viewHolder.nTitle.setText(title);
         viewHolder.nDate.setText(date);
         viewHolder.nTime.setText(time);
+        viewHolder.nCategory.setText(category);
         viewHolder.nID.setText(String.valueOf(notes.get(i).getID()));
+
+
     }
 
     @Override
@@ -50,13 +54,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView nTitle, nDate, nTime;
-        TextView nID;
+        TextView nTitle, nDate, nTime, nCategory, nID;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             nTitle = itemView.findViewById(R.id.nTitle);
             nDate = itemView.findViewById(R.id.nDate);
             nTime = itemView.findViewById(R.id.nTime);
+            nCategory = itemView.findViewById(R.id.nCategory);
             nID = itemView.findViewById(R.id.listId);
 
             itemView.setOnClickListener(new View.OnClickListener() {

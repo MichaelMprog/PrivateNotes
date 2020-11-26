@@ -22,7 +22,7 @@ public class NoteDatabase extends SQLiteOpenHelper {
     private static final String KEY_CONTENT = "content";
     private static final String KEY_DATE = "date";
     private static final String KEY_TIME = "time";
-    // private static final String KEY_CATEGORY = "category";
+    private static final String KEY_CATEGORY = "category";
 
     // constructor
     public NoteDatabase(Context context) {
@@ -33,14 +33,13 @@ public class NoteDatabase extends SQLiteOpenHelper {
     // creates database
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // CREATE TABLE nameTable(id INT PRIMARY KEY, title TEXT, content TEXT, date TEXT, time TEXT)
         String  query = "CREATE TABLE " + DATABASE_TABLE + "(" +
-                KEY_ID + " INT PRIMARY KEY," +
+                KEY_ID + " INTEGER PRIMARY KEY," +
                 KEY_TITLE + " TEXT," +
                 KEY_CONTENT + " TEXT," +
                 KEY_DATE + " TEXT," +
-                KEY_TIME + " TEXT" + ")";
-        // KEY_CATEGORY + " TEXT"
+                KEY_TIME + " TEXT," +
+                KEY_CATEGORY + " TEXT" + ")";
         db.execSQL(query);
     }
 
@@ -56,19 +55,17 @@ public class NoteDatabase extends SQLiteOpenHelper {
     }
 
     // add note to database
-    public long addNote (Note note) {
+    public void addNote (Note note) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues c = new ContentValues();
         c.put(KEY_TITLE, note.getTitle());
         c.put(KEY_CONTENT, note.getContent());
         c.put(KEY_DATE, note.getDate());
         c.put(KEY_TIME, note.getTime());
-        // c.put(KEY_CATEGORY, note.getCategory());
+        c.put(KEY_CATEGORY, note.getCategory());
 
         // inserting data into db
-        long ID = db.insert(DATABASE_TABLE, null, c);
-        Log.d("Inserted", "ID -> " + ID);
-        return ID;
+        db.insert(DATABASE_TABLE, null, c);
     }
 
     // returns a note
@@ -77,45 +74,40 @@ public class NoteDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         // cursor points to the specific row in the database column
         // need to add KEY_CATEGORY
-        String[] query = new String[] {KEY_ID, KEY_TITLE, KEY_CONTENT, KEY_DATE, KEY_TIME};
-        Cursor cursor = db.query(DATABASE_TABLE, query, KEY_ID+"=?", new String[]{String.valueOf(id)},
+        String[] query = new String[]{KEY_ID, KEY_TITLE, KEY_CONTENT, KEY_DATE, KEY_TIME, KEY_CATEGORY};
+        Cursor cursor = db.query(DATABASE_TABLE, query, KEY_ID + "=?", new String[]{String.valueOf(id)},
                 null, null, null, null);
-        if (cursor != null && cursor.getCount()>0)
-        {
-            Log.d("CURSOR", "cursor != null && cursor.getCount()>0");
+        if (cursor != null)
             cursor.moveToFirst();
-        }
-        // may need to add cursor.getString(5) for category
-        return new Note(
 
-                // THERE IS AN ERROR, CURSOR OUT OF BOUNDS
-                Long.parseLong(cursor.getString(0)),
+        Note note = new Note(
+                Integer.parseInt(cursor.getString(0)),
                 cursor.getString(1),
                 cursor.getString(2),
                 cursor.getString(3),
-                cursor.getString(4));
+                cursor.getString(4),
+                cursor.getString(5)
+        );
+        return note;
     }
 
     // returns the list of notes
-    public List<Note> getNotes() {
-        SQLiteDatabase db = this.getReadableDatabase();
+    public List<Note> getAllNotes() {
         List<Note> allNotes = new ArrayList<>();
-        // select * from databaseName (* = ALL)
-        String query = "SELECT * FROM " + DATABASE_TABLE;
-
-        // null because we pass no arguments
+        String query = "SELECT * FROM " + DATABASE_TABLE+" ORDER BY "+KEY_ID+" DESC";
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         // if not null, retrieve all note data
         if (cursor.moveToFirst())
         {
             do{
                 Note note = new Note();
-                note.setID(cursor.getLong(0));
+                note.setID(Integer.parseInt(cursor.getString(0)));
                 note.setTitle(cursor.getString(1));
                 note.setContent(cursor.getString(2));
                 note.setDate(cursor.getString(3));
                 note.setTime(cursor.getString(4));
-                // note.setCategory(cursor.getString(5);
+                note.setCategory(cursor.getString(5));
                 allNotes.add(note);
             }while(cursor.moveToNext());
         }
@@ -130,7 +122,7 @@ public class NoteDatabase extends SQLiteOpenHelper {
         c.put(KEY_CONTENT, note.getContent());
         c.put(KEY_DATE, note.getDate());
         c.put(KEY_TIME, note.getTime());
-        // c.put(KEY_CATEGORY, note.getCategory());
+        c.put(KEY_CATEGORY, note.getCategory());
         return db.update(DATABASE_TABLE, c, KEY_ID+"=?", new String[]{String.valueOf(note.getID())});
     }
 
