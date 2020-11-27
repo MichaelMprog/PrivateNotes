@@ -95,6 +95,7 @@ public class NoteDatabase extends SQLiteOpenHelper {
         List<Note> allNotes = new ArrayList<>();
 
         String query = "SELECT * FROM " + DATABASE_TABLE+" ORDER BY "+KEY_ID+" DESC";
+        /*
         if (MainActivity.filter == 0) {
             query = "SELECT * FROM " + DATABASE_TABLE+" ORDER BY "+KEY_DATE+" DESC";
         }
@@ -104,7 +105,7 @@ public class NoteDatabase extends SQLiteOpenHelper {
         else if (MainActivity.filter == 2){
             query = "SELECT * FROM " + DATABASE_TABLE+" ORDER BY "+KEY_CATEGORY+" DESC";
         }
-
+        */
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         // if not null, retrieve all note data
