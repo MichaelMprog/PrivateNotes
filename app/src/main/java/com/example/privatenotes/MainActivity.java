@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     TextView noItemText;
     NoteDatabase db;
 
+    List <Note> allNotes;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         noItemText = findViewById(R.id.noItemText);
         db = new NoteDatabase(this);
-        List<Note> allNotes = db.getAllNotes();
+        allNotes = db.getAllNotes();
         recyclerView = findViewById(R.id.listOfNotes);
 
         if(allNotes.isEmpty()){
@@ -50,11 +52,11 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             noItemText.setVisibility(View.GONE);
-            displayList(allNotes);
+            displayList();
         }
     }
 
-    private void displayList(List<Note> allNotes) {
+    private void displayList() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         // sort notes
         if (filter == 1) {           // by title
@@ -83,14 +85,17 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.sortDate) {
             Toast.makeText(this, "Sort by Date", Toast.LENGTH_SHORT).show();
             filter = 0;
+            displayList();
         }
         else if (item.getItemId() == R.id.sortTitle) {
             Toast.makeText(this, "Sort by Title", Toast.LENGTH_SHORT).show();
             filter = 1;
+            displayList();
         }
         else if (item.getItemId() == R.id.sortCategory) {
             Toast.makeText(this, "Sort by Category", Toast.LENGTH_SHORT).show();
             filter = 2;
+            displayList();
         }
 
         // add note button
@@ -105,12 +110,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        List<Note> getAllNotes = db.getAllNotes();
-        if(getAllNotes.isEmpty()){
+        allNotes = db.getAllNotes();
+        if(allNotes.isEmpty()){
             noItemText.setVisibility(View.VISIBLE);
         }else {
             noItemText.setVisibility(View.GONE);
-            displayList(getAllNotes);
+            displayList();
         }
 
 
@@ -130,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
     public class TitleSorter implements Comparator <Note> {
         public int compare(Note o1, Note o2) {
-            return o1.getTitle().compareTo(o2.getTitle());
+            return o1.getTitle().compareToIgnoreCase(o2.getTitle());
         }
     }
 
