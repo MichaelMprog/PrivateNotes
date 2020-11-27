@@ -69,9 +69,7 @@ public class AddNote extends AppCompatActivity {
     // pads time values with zeroes
     private String pad(int time) {
         if (time < 10)
-        {
             return "0" + time;
-        }
         return String.valueOf(time);
     }
 

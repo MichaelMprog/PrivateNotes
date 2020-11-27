@@ -45,7 +45,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>
         viewHolder.nCategory.setText(category);
         viewHolder.nID.setText(String.valueOf(notes.get(i).getID()));
 
-
     }
 
     @Override

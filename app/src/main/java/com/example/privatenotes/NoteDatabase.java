@@ -47,9 +47,8 @@ public class NoteDatabase extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion >= newVersion)
-        {
             return;
-        }
+
         db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
         onCreate(db);
     }
@@ -69,7 +68,7 @@ public class NoteDatabase extends SQLiteOpenHelper {
     }
 
     // returns a note
-    public Note getNote(long id) {
+    public Note getNote(int id) {
         // select from databaseTable where id=1
         SQLiteDatabase db = this.getWritableDatabase();
         // cursor points to the specific row in the database column
@@ -94,12 +93,22 @@ public class NoteDatabase extends SQLiteOpenHelper {
     // returns the list of notes
     public List<Note> getAllNotes() {
         List<Note> allNotes = new ArrayList<>();
+
         String query = "SELECT * FROM " + DATABASE_TABLE+" ORDER BY "+KEY_ID+" DESC";
+        if (MainActivity.filter == 0) {
+            query = "SELECT * FROM " + DATABASE_TABLE+" ORDER BY "+KEY_DATE+" DESC";
+        }
+        else if (MainActivity.filter == 1){
+            query = "SELECT * FROM " + DATABASE_TABLE+" ORDER BY "+KEY_TITLE+" DESC";
+        }
+        else if (MainActivity.filter == 2){
+            query = "SELECT * FROM " + DATABASE_TABLE+" ORDER BY "+KEY_CATEGORY+" DESC";
+        }
+
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         // if not null, retrieve all note data
-        if (cursor.moveToFirst())
-        {
+        if (cursor.moveToFirst()) {
             do{
                 Note note = new Note();
                 note.setID(Integer.parseInt(cursor.getString(0)));
@@ -127,7 +136,7 @@ public class NoteDatabase extends SQLiteOpenHelper {
     }
 
     // take id of note to delete, and delete it
-    void deleteNote (long id){
+    void deleteNote (int id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(DATABASE_TABLE, KEY_ID+"=?", new String[]{String.valueOf(id)});
         db.close();

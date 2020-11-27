@@ -41,6 +41,7 @@ public class Edit extends AppCompatActivity {
 
         final String title = note.getTitle();
         String content = note.getContent();
+        String category = note.getCategory();
         nTitle = findViewById(R.id.noteTitle);
         nContent = findViewById(R.id.noteDetails);
         nCategory = findViewById(R.id.noteCategory);
@@ -68,6 +69,7 @@ public class Edit extends AppCompatActivity {
         // open edit menu with existing title and content already there
         nTitle.setText(title);
         nContent.setText(content);
+        nCategory.setText(category);
 
         // set current date and time
         c = Calendar.getInstance();

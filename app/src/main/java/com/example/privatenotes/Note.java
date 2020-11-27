@@ -74,7 +74,7 @@ public class Note {
         return category;
     }
 
-    public void setCategory(String time) {
+    public void setCategory(String category) {
         this.category = category;
     }
 }

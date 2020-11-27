@@ -1,17 +1,17 @@
 package com.example.privatenotes;
 
-// Debugging Notes:
-//      May need to check themes for action bar color (see tutorial 2 beginning)
-// classes with differences: AddNote, MainActivity, Edit
-
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,15 +20,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    public static int filter;
     Toolbar toolbar;
     RecyclerView recyclerView;
     Adapter adapter;
     TextView noItemText;
     NoteDatabase db;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        filter = 0;
+
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
@@ -62,6 +66,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // sort button
+        if (item.getItemId() == R.id.sortDate) {
+            Toast.makeText(this, "Sort by Date", Toast.LENGTH_SHORT).show();
+            filter = 0;
+        }
+        else if (item.getItemId() == R.id.sortTitle) {
+            Toast.makeText(this, "Sort by Title", Toast.LENGTH_SHORT).show();
+            filter = 1;
+        }
+        else if (item.getItemId() == R.id.sortCategory) {
+            Toast.makeText(this, "Sort by Category", Toast.LENGTH_SHORT).show();
+            filter = 2;
+        }
+
+        // add note button
         if(item.getItemId() == R.id.add) {
             Toast.makeText(this, "Add New Note.", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this, AddNote.class);

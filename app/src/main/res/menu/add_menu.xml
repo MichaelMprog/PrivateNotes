@@ -3,8 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/sortDate"
+        android:title="Sort Date" />
+    <item
+        android:id="@+id/sortTitle"
+        android:title="Sort Title" />
+    <item
+        android:id="@+id/sortCategory"
+        android:title="Sort Category" />
+    <item
         android:id="@+id/add"
         android:icon="@drawable/ic_baseline_add_24"
-        android:title="Add"
+        android:title="Add New"
         app:showAsAction="ifRoom" />
 </menu>
