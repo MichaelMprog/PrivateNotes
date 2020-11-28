@@ -11,43 +11,75 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 public class Login extends AppCompatActivity {
-    // using shared preferences for saving to local device
-    // SharedPreferences sharedPref;
-    EditText enterPassword;
-    TextView wrongPass;
+    private EditText enterPassword, newPass;
+    private Button btnChange, btnNext;
+
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String PASSWORD = "text";
+    private String userPass;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // sharedPref = getSharedPreferences("myPref", MODE_PRIVATE);
-        String userPass = "password";
-        // message for wrong password, hidden until needed
-        wrongPass = findViewById(R.id.wrongPass);
-
         setContentView(R.layout.activity_login);
-        enterPassword = findViewById(R.id.enterPassword);
 
-        Button button = findViewById(R.id.btnLogin);
-        button.setOnClickListener (new View.OnClickListener() {
+        // UI initialization
+        enterPassword = (EditText) findViewById(R.id.enterPassword);
+        newPass = (EditText) findViewById(R.id.newPass);
+        btnChange = (Button) findViewById(R.id.btnChange);
+        btnNext = (Button) findViewById(R.id.btnLogin);
+
+        // change password button listener
+        btnChange.setOnClickListener (new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // when clicked, set password to text in newPass text field
+                savePassword();
+            }
+        });
+
+        // login button listener
+        btnNext.setOnClickListener (new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               //sharedPref.edit().putString("user_id",)
                // get password from input when login is pressed
                String inputPass = enterPassword.getText().toString();
-               // compare to saved password
-               if (inputPass.compareTo(userPass) == 0) {
+               loadPassword();
+               // if user hasn't set a password yet
+               if (userPass.compareTo("") == 0)
+               {
+                    Toast.makeText(Login.this, "Please create a password first.", Toast.LENGTH_SHORT).show();
+               }
+               else if (inputPass.compareTo(userPass) == 0) {
                    // if correct, go to MainActivity
                    Intent intent = new Intent(Login.this, MainActivity.class);
                    startActivity(intent);
                }
                else {
                    // if incorrect, tell user
-                   wrongPass.setVisibility(View.VISIBLE);
+                   Toast.makeText(Login.this, "Invalid Password", Toast.LENGTH_SHORT).show();
                }
            }
         });
     }
 
+    public void savePassword() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        // saves text in newPass EditText field into PASSWORD shared preference
+        editor.putString(PASSWORD, newPass.getText().toString());
+        editor.apply();
+        Toast.makeText(this, "Password saved", Toast.LENGTH_SHORT).show();
+    }
+
+    public void loadPassword() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        // sets userPass equal to string in PASSWORD, or if there is no value, make it empty
+        userPass = sharedPreferences.getString(PASSWORD, "");
+    }
 
 
 }
