@@ -33,6 +33,9 @@ public class Details extends AppCompatActivity {
         details.setText(note.getContent());
         details.setMovementMethod(new ScrollingMovementMethod());  // adds scroll bar to details
 
+        TextView category = findViewById(R.id.dcategory);
+        category.setText(note.getCategory());
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

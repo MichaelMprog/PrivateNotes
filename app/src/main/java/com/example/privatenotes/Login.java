@@ -1,17 +1,14 @@
 package com.example.privatenotes;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Login extends AppCompatActivity {
     private EditText enterPassword, newPass, oldPass;
@@ -19,7 +16,6 @@ public class Login extends AppCompatActivity {
 
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String PASSWORD = "text";
-    private static final String KEY = "SometopSecretKey1235";
     private String userPass;
 
     @Override
@@ -89,7 +85,6 @@ public class Login extends AppCompatActivity {
            }
         });
     }
-
 
     public void savePassword() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
