@@ -107,6 +107,15 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(this, AddNote.class);
             startActivity(i);
         }
+
+        /* change password button
+        if (item.getItemId() == R.id.changePass) {
+            Toast.makeText(this, "Changing password.", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, ChangePassword.class);
+            startActivity(i);
+        }
+        */
+
         return super.onOptionsItemSelected(item);
     }
 

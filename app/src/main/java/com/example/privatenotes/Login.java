@@ -14,7 +14,7 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 public class Login extends AppCompatActivity {
-    private EditText enterPassword, newPass;
+    private EditText enterPassword, newPass, oldPass;
     private Button btnChange, btnNext;
 
     public static final String SHARED_PREFS = "sharedPrefs";
@@ -29,6 +29,7 @@ public class Login extends AppCompatActivity {
         // UI initialization
         enterPassword = (EditText) findViewById(R.id.enterPassword);
         newPass = (EditText) findViewById(R.id.newPass);
+        oldPass = (EditText) findViewById(R.id.oldPass);
         btnChange = (Button) findViewById(R.id.btnChange);
         btnNext = (Button) findViewById(R.id.btnLogin);
 
@@ -37,7 +38,25 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // when clicked, set password to text in newPass text field
-                savePassword();
+                String oldInput = oldPass.getText().toString();
+                // if user password is currently null, allow to change the password without oldPass
+                if (userPass.compareTo("") == 0)
+                {
+                    savePassword();
+                    ((EditText) findViewById(R.id.newPass)).setText("");
+                    ((EditText) findViewById(R.id.oldPass)).setText("");
+                }
+                else if (oldInput.compareTo(userPass) == 0)     // if old input is correct
+                {
+                    savePassword();
+                    ((EditText) findViewById(R.id.newPass)).setText("");
+                    ((EditText) findViewById(R.id.oldPass)).setText("");
+                }
+                else                                            // if old password incorrect
+                {
+                    Toast.makeText(Login.this, "Old password is incorrect", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -54,7 +73,10 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(Login.this, "Please create a password first.", Toast.LENGTH_SHORT).show();
                }
                else if (inputPass.compareTo(userPass) == 0) {
-                   // if correct, go to MainActivity
+                   // if correct, clear text fields and go to MainActivity
+                   ((EditText) findViewById(R.id.enterPassword)).setText("");
+                   ((EditText) findViewById(R.id.newPass)).setText("");
+                   ((EditText) findViewById(R.id.oldPass)).setText("");
                    Intent intent = new Intent(Login.this, MainActivity.class);
                    startActivity(intent);
                }
@@ -78,7 +100,7 @@ public class Login extends AppCompatActivity {
     public void loadPassword() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         // sets userPass equal to string in PASSWORD, or if there is no value, make it empty
-        userPass = sharedPreferences.getString(PASSWORD, "");
+        userPass = sharedPreferences.getString(PASSWORD, "default");
     }
 
 

@@ -16,4 +16,9 @@
         android:icon="@drawable/ic_baseline_add_24"
         android:title="Add New"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/changePass"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="Change Password"
+        app:showAsAction="always" />
 </menu>
