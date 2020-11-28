@@ -60,12 +60,15 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         // sort notes
         if (filter == 1) {           // by title
+            Log.d("COMPARE", "by title " + filter);
             Collections.sort(allNotes, new TitleSorter());
         }
         else if (filter == 2) {      // by category
+            Log.d("COMPARE", "by category " + filter);
             Collections.sort(allNotes, new CategorySorter());
         }
         else if (filter == 3){                      // by date
+            Log.d("COMPARE", "by dates " + filter);
             Collections.sort(allNotes, new DateSorter());
         }
         adapter = new Adapter(this,allNotes);
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.sortDate) {
             Toast.makeText(this, "Sort by Date", Toast.LENGTH_SHORT).show();
             filter = 3;
+            displayList();
         }
         else if (item.getItemId() == R.id.sortTitle) {
             Toast.makeText(this, "Sort by Title", Toast.LENGTH_SHORT).show();
@@ -120,10 +124,13 @@ public class MainActivity extends AppCompatActivity {
 
     // sorting comparators
     public class DateSorter implements Comparator<Note> {
-        DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        DateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm");
+
         public int compare(Note o1, Note o2) {
-            Date date1 = format.parse(o1.getDate(), new ParsePosition(0));
-            Date date2 = format.parse(o2.getDate(), new ParsePosition(0));
+            String time1 = o1.getDate() + " " + o1.getTime();
+            String time2 = o2.getDate() + " " + o2.getTime();
+            Date date1 = format.parse(time1, new ParsePosition(0));
+            Date date2 = format.parse(time2, new ParsePosition(0));
             return date1.compareTo(date2);
         }
     }
