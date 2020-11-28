@@ -1,10 +1,5 @@
 package com.example.privatenotes;
 
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.Comparator;
-import java.util.Date;
-
 public class Note {
     // note values
     private int ID;

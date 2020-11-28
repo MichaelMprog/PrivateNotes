@@ -95,17 +95,7 @@ public class NoteDatabase extends SQLiteOpenHelper {
         List<Note> allNotes = new ArrayList<>();
 
         String query = "SELECT * FROM " + DATABASE_TABLE+" ORDER BY "+KEY_ID+" DESC";
-        /*
-        if (MainActivity.filter == 0) {
-            query = "SELECT * FROM " + DATABASE_TABLE+" ORDER BY "+KEY_DATE+" DESC";
-        }
-        else if (MainActivity.filter == 1){
-            query = "SELECT * FROM " + DATABASE_TABLE+" ORDER BY "+KEY_TITLE+" DESC";
-        }
-        else if (MainActivity.filter == 2){
-            query = "SELECT * FROM " + DATABASE_TABLE+" ORDER BY "+KEY_CATEGORY+" DESC";
-        }
-        */
+
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         // if not null, retrieve all note data
@@ -143,14 +133,4 @@ public class NoteDatabase extends SQLiteOpenHelper {
         db.close();
     }
 
-    /*
-    THIS FUNCTION COULD BE USED TO SORT THE NOTE DATABASE WHEN SORT BUTTON IS PRESSED
-    public String sortNotes(int sortKey)
-    {
-        String query;
-        query = "SELECT * FROM " + DATABASE_TABLE + " ORDER BY " + sortKey + "DESC";
-        return query;
-    }
-
-     */
 }

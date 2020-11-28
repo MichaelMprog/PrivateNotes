@@ -1,9 +1,8 @@
 package com.example.privatenotes;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,12 +10,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DateFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -38,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        filter = 0;
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         else if (filter == 2) {      // by category
             Collections.sort(allNotes, new CategorySorter());
         }
-        else {                      // by date
+        else if (filter == 3){                      // by date
             Collections.sort(allNotes, new DateSorter());
         }
         adapter = new Adapter(this,allNotes);
@@ -84,8 +84,7 @@ public class MainActivity extends AppCompatActivity {
         // sort button
         if (item.getItemId() == R.id.sortDate) {
             Toast.makeText(this, "Sort by Date", Toast.LENGTH_SHORT).show();
-            filter = 0;
-            displayList();
+            filter = 3;
         }
         else if (item.getItemId() == R.id.sortTitle) {
             Toast.makeText(this, "Sort by Title", Toast.LENGTH_SHORT).show();
@@ -117,16 +116,12 @@ public class MainActivity extends AppCompatActivity {
             noItemText.setVisibility(View.GONE);
             displayList();
         }
-
-
     }
 
-    // -1 for a less than (or before) b
-    // 0 for equal
-    // 1 for a greater than (or after) b
+    // sorting comparators
     public class DateSorter implements Comparator<Note> {
+        DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
         public int compare(Note o1, Note o2) {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
             Date date1 = format.parse(o1.getDate(), new ParsePosition(0));
             Date date2 = format.parse(o2.getDate(), new ParsePosition(0));
             return date1.compareTo(date2);
