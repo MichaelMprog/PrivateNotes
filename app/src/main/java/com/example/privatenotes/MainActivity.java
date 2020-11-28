@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
     List <Note> allNotes;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

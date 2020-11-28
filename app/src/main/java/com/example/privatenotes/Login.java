@@ -19,6 +19,7 @@ public class Login extends AppCompatActivity {
 
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String PASSWORD = "text";
+    private static final String KEY = "SometopSecretKey1235";
     private String userPass;
 
     @Override
@@ -39,8 +40,9 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 // when clicked, set password to text in newPass text field
                 String oldInput = oldPass.getText().toString();
-                // if user password is currently null, allow to change the password without oldPass
-                if (userPass.compareTo("") == 0)
+                loadPassword();
+                // if user put nothing in old password, and current password is null, create new password
+                if ( (oldInput == null || oldInput.isEmpty()) && (userPass == null || userPass.isEmpty()) )
                 {
                     savePassword();
                     ((EditText) findViewById(R.id.newPass)).setText("");
@@ -54,7 +56,7 @@ public class Login extends AppCompatActivity {
                 }
                 else                                            // if old password incorrect
                 {
-                    Toast.makeText(Login.this, "Old password is incorrect", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Old password is invalid", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -88,6 +90,7 @@ public class Login extends AppCompatActivity {
         });
     }
 
+
     public void savePassword() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -103,5 +106,21 @@ public class Login extends AppCompatActivity {
         userPass = sharedPreferences.getString(PASSWORD, "default");
     }
 
+
+    /*
+    public void savePassword() {
+        SharedPreferences sharedPreferences = new ObscuredSharedPreferences(this,
+                this.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE));
+        sharedPreferences.edit().putString(PASSWORD, newPass.getText().toString()).apply();
+        Toast.makeText(this, "Password saved", Toast.LENGTH_SHORT).show();
+    }
+
+    public void loadPassword() {
+        SharedPreferences sharedPreferences = new ObscuredSharedPreferences(this,
+                this.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE));
+        // sets userPass equal to string in PASSWORD, or if there is no value, make it empty
+        userPass = sharedPreferences.getString(PASSWORD, null);
+    }
+*/
 
 }
