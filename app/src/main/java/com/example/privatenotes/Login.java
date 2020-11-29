@@ -100,22 +100,4 @@ public class Login extends AppCompatActivity {
         // sets userPass equal to string in PASSWORD, or if there is no value, make it empty
         userPass = sharedPreferences.getString(PASSWORD, "default");
     }
-
-
-    /*
-    public void savePassword() {
-        SharedPreferences sharedPreferences = new ObscuredSharedPreferences(this,
-                this.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE));
-        sharedPreferences.edit().putString(PASSWORD, newPass.getText().toString()).apply();
-        Toast.makeText(this, "Password saved", Toast.LENGTH_SHORT).show();
-    }
-
-    public void loadPassword() {
-        SharedPreferences sharedPreferences = new ObscuredSharedPreferences(this,
-                this.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE));
-        // sets userPass equal to string in PASSWORD, or if there is no value, make it empty
-        userPass = sharedPreferences.getString(PASSWORD, null);
-    }
-*/
-
 }

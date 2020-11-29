@@ -46,7 +46,8 @@ public class AddNote extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() != 0) {
-                    getSupportActionBar().setTitle(s);  // changes text in toolbar when note title is changed
+                    // changes text in toolbar when note title is changed
+                    getSupportActionBar().setTitle(s);
                 }
             }
 
@@ -58,7 +59,8 @@ public class AddNote extends AppCompatActivity {
 
         // get current date and time
         c = Calendar.getInstance();
-        todaysDate = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH);
+        todaysDate = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" +
+                c.get(Calendar.DAY_OF_MONTH);
         Log.d("DATE", "Date: " + todaysDate);
         currentTime = pad(c.get(Calendar.HOUR)) + ":" + pad(c.get(Calendar.MINUTE));
         Log.d("TIME", "Time: " + currentTime);
@@ -84,19 +86,22 @@ public class AddNote extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.save) {
             if (noteTitle.getText().length() != 0) {
-                Note note = new Note(noteTitle.getText().toString(), noteDetails.getText().toString(),todaysDate,currentTime, noteCategory.getText().toString());  // constructs note
+                // constructs note
+                Note note = new Note(noteTitle.getText().toString(), noteDetails.getText().toString(),
+                        todaysDate,currentTime, noteCategory.getText().toString());
                 NoteDatabase sDB = new NoteDatabase(this);
                 sDB.addNote(note);
                 onBackPressed();
-
-                Toast.makeText(this, "Note Saved", Toast.LENGTH_SHORT).show();  // tells user button was pressed
+                // tells user button was pressed
+                Toast.makeText(this, "Note Saved", Toast.LENGTH_SHORT).show();
             }
             else {
                 noteTitle.setError("Title can not be blank");
             }
         }
         else if(item.getItemId() == R.id.delete) {
-            Toast.makeText(this, "Canceled", Toast.LENGTH_SHORT).show();     // tells user button was pressed
+            // tells user button was pressed
+            Toast.makeText(this, "Canceled", Toast.LENGTH_SHORT).show();
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);

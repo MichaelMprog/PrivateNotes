@@ -34,9 +34,9 @@ public class Edit extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         Intent i = getIntent();                               // get intent from Details.java
-        nId = i.getIntExtra("ID", 0);  // gets the id of the note as well
-        NoteDatabase db = new NoteDatabase(this);                  // database of notes
-        Note note = db.getNote(nId);                                // get the current node with id
+        nId = i.getIntExtra("ID", 0);       // gets the id of the note as well
+        NoteDatabase db = new NoteDatabase(this);     // database of notes
+        Note note = db.getNote(nId);                          // get the current node with id
 
         final String title = note.getTitle();
         String content = note.getContent();
@@ -55,7 +55,8 @@ public class Edit extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() != 0)
                 {
-                    getSupportActionBar().setTitle(s);  // changes text in toolbar when note title is changed
+                    // changes text in toolbar when note title is changed
+                    getSupportActionBar().setTitle(s);
                 }
             }
 
@@ -72,7 +73,8 @@ public class Edit extends AppCompatActivity {
 
         // set current date and time
         c = Calendar.getInstance();
-        todaysDate = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH);
+        todaysDate = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/"
+                + c.get(Calendar.DAY_OF_MONTH);
         Log.d("DATE", "Date: " + todaysDate);
         currentTime = pad(c.get(Calendar.HOUR)) + ":" + pad(c.get(Calendar.MINUTE));
         Log.d("TIME", "Time: " + currentTime);
@@ -98,7 +100,8 @@ public class Edit extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.save){
-            Note note = new Note(nId,nTitle.getText().toString(),nContent.getText().toString(),todaysDate,currentTime,nCategory.getText().toString());
+            Note note = new Note(nId,nTitle.getText().toString(),nContent.getText().toString(),
+                    todaysDate,currentTime,nCategory.getText().toString());
             Log.d("EDITED", "edited: before saving id -> " + note.getID());
             NoteDatabase sDB = new NoteDatabase(getApplicationContext());
             int id = sDB.editNote(note);
