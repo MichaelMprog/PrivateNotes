@@ -15,7 +15,7 @@ public class Login extends AppCompatActivity {
     private Button btnChange, btnNext;
 
     public static final String SHARED_PREFS = "sharedPrefs";
-    public static final String PASSWORD = "text";
+    public static final String PASSWORD = "default";
     private String userPass;
 
     @Override
